@@ -1,3 +1,0 @@
-# breakchain-protocol-metrics-api
-
-This repo contain the logic to query the Polygon Blockchain and read from the Breakchain Protocol smart contracts. The python files are organized by web page. For example, one python file for the Dashboard, one file for Staking, and another file for Bonding. You can test the files by downloading this repo, installing the dependencies found in the import statements, and running the main function in each file. Each of these files is mapped to an AWS Lambda and AWS API gateway. The breakchain react app calls these APIs and grabs the metrics from the API response.
