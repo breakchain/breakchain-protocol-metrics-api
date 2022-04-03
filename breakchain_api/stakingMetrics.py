@@ -39,18 +39,15 @@ def get_staking_metrics():
 
     return {
         "statusCode": 200,
-        "body": json.dumps(
-            {
-                "APY": apy,
-                "ROI-5-Day": roi5,
-                "total-locked-value": tvl,
-                "xchain-price": priceFloor,
-                "next-reward-amount": "",
-                "next-reward-yield": "",
-                "your-earnings-per-day": "",
-                "position": ""
-            }
-
-        )
+        "body": {
+            "APY": apy,
+            "ROI-5-Day": roi5,
+            "total-locked-value": tvl,
+            "xchain-price": priceFloor,
+            "next-reward-amount": "",
+            "next-reward-yield": "",
+            "your-earnings-per-day": "",
+            "position": ""
+        }
     }
 

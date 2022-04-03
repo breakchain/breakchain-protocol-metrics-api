@@ -52,16 +52,12 @@ def get_bonding_metrics():
 
     return {
         "statusCode": 200,
-        "body": json.dumps(
-            {
-                "you-will-get": "",
-                "max-you-can-buy": maxPrice,
-                "ROI": roi,
-                "debt-ratio": debtRatio,
-                "vesting-term": "5 Days"
-
-            }
-
-        )
+        "body": {
+            "you-will-get": "",
+            "max-you-can-buy": maxPrice,
+            "ROI": roi,
+            "debt-ratio": debtRatio,
+            "vesting-term": "5 Days"
+        }
     }
 

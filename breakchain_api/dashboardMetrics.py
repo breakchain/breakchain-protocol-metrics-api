@@ -57,18 +57,15 @@ def get_dashboard_metrics():
 
     return {
         "statusCode": 200,
-        "body": json.dumps(
-            {
-                "xchain-price": priceFloor,
-                "market-cap": priceFloor*circulatingSupply,
-                "price-floor": priceFloor,
-                "xchain-staked": stakedRatio,
-                "circulating-supply": circulatingSupply,
-                "runway-available": runway,
-                "total-value-locked": tvl,
-                "treasury-assets": treasuryAssets,
-                "treasury-backing": treasuryAssets
-            }
-
-        )
+        "body": {
+            "xchain-price": priceFloor,
+            "market-cap": priceFloor*circulatingSupply,
+            "price-floor": priceFloor,
+            "xchain-staked": stakedRatio,
+            "circulating-supply": circulatingSupply,
+            "runway-available": runway,
+            "total-value-locked": tvl,
+            "treasury-assets": treasuryAssets,
+            "treasury-backing": treasuryAssets
+        }
     }
