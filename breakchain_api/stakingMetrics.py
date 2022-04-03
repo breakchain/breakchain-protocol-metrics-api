@@ -38,13 +38,16 @@ def get_staking_metrics():
     tvl = priceFloor * (stakedXchain / 10 ** 18)
 
     return {
-        "APY": apy,
-        "ROI-5-Day": roi5,
-        "total-locked-value": tvl,
-        "xchain-price": priceFloor,
-        "next-reward-amount": "",
-        "next-reward-yield": "",
-        "your-earnings-per-day": "",
-        "position": ""
+        "statusCode": 200,
+        "body": {
+            "APY": apy,
+            "ROI-5-Day": roi5,
+            "total-locked-value": tvl,
+            "xchain-price": priceFloor,
+            "next-reward-amount": "",
+            "next-reward-yield": "",
+            "your-earnings-per-day": "",
+            "position": ""
+        }
     }
 

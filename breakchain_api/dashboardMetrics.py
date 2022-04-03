@@ -56,13 +56,16 @@ def get_dashboard_metrics():
               np.log(1+(rewardYield/100)))/3
 
     return {
-        "xchain-price": priceFloor,
-        "market-cap": priceFloor*circulatingSupply,
-        "price-floor": priceFloor,
-        "xchain-staked": stakedRatio,
-        "circulating-supply": circulatingSupply,
-        "runway-available": runway,
-        "total-value-locked": tvl,
-        "treasury-assets": treasuryAssets,
-        "treasury-backing": treasuryAssets
+        "statusCode": 200,
+        "body": {
+            "xchain-price": priceFloor,
+            "market-cap": priceFloor*circulatingSupply,
+            "price-floor": priceFloor,
+            "xchain-staked": stakedRatio,
+            "circulating-supply": circulatingSupply,
+            "runway-available": runway,
+            "total-value-locked": tvl,
+            "treasury-assets": treasuryAssets,
+            "treasury-backing": treasuryAssets
+        }
     }
