@@ -51,13 +51,10 @@ def get_bonding_metrics():
     # You will get == (amount deposited / bond price)
 
     return {
-        "statusCode": 200,
-        "body": {
-            "you-will-get": "",
-            "max-you-can-buy": maxPrice,
-            "ROI": roi,
-            "debt-ratio": debtRatio,
-            "vesting-term": "5 Days"
-        }
+        "you-will-get": "",
+        "max-you-can-buy": maxPrice,
+        "ROI": roi,
+        "debt-ratio": debtRatio,
+        "vesting-term": "5 Days"
     }
 
