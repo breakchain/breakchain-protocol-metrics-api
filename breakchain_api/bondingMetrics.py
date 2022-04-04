@@ -54,10 +54,10 @@ def get_bonding_metrics():
         "statusCode": 200,
         "body": {
             "you-will-get": "",
+            "bond-price": bondPrice,
             "max-you-can-buy": maxPrice,
             "ROI": roi,
             "debt-ratio": debtRatio,
             "vesting-term": "5 Days"
         }
     }
-
