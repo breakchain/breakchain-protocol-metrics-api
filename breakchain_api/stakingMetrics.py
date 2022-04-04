@@ -19,7 +19,8 @@ def get_staking_metrics():
 
     totalSupplyXchain = (xchain.functions.totalSupply().call()) * (10 ** 9)
     stakingAddress = env("STAKING_ADDRESS")
-    stakedXchain = (xchain.functions.balanceOf(stakingAddress).call()) * 10 ** 9
+    stakedXchain = (xchain.functions.balanceOf(
+        stakingAddress).call()) * 10 ** 9
 
     # APY and ROI 5 Day
     distributed = (totalSupplyXchain / 10 ** 18) * .003
@@ -45,9 +46,8 @@ def get_staking_metrics():
             "total-locked-value": tvl,
             "xchain-price": priceFloor,
             "next-reward-amount": "",
-            "next-reward-yield": "",
+            "next-reward-yield": rewardYield,
             "your-earnings-per-day": "",
             "position": ""
         }
     }
-
