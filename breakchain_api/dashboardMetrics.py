@@ -55,6 +55,22 @@ def get_dashboard_metrics():
     runway = (np.log(rfv/(stakedXchain/10**18)) /
               np.log(1+(rewardYield/100)))/3
 
+    #apy
+    apy = ((1 + rewardYield / 100) ** (3 * 365) - 1) * 100
+    roi5 = ((1 + rewardYield / 100) ** (3 * 5) - 1) * 100
+
+    #bond
+    with open(ROOT_DIR + "abi/usdcbond_abi.json") as f:
+        usdcbond_abi = json.load(f)
+
+    usdcbond = w3.eth.contract(env("USDC_BOND_ADDRESS"), abi=usdcbond_abi)
+    bondPrice = usdcbond.functions.bondPriceInUSD().call() / 10 ** 18
+    maxPrice = usdcbond.functions.maxPayout().call() / 10 ** 9
+    roi = (priceFloor - bondPrice) / priceFloor
+    # Debt Ratio
+    debtRatio = usdcbond.functions.debtRatio().call() / 100
+    print("Debt Ratio: " + str(debtRatio))
+
     return {
         "statusCode": 200,
         "body": {
@@ -66,6 +82,19 @@ def get_dashboard_metrics():
             "runway-available": runway,
             "total-value-locked": tvl,
             "treasury-assets": treasuryAssets,
-            "treasury-backing": treasuryAssets
+            "treasury-backing": treasuryAssets,
+            "APY": apy,
+            "ROI-5-Day": roi5,
+            "total-locked-value": tvl,
+            "next-reward-amount": "",
+            "next-reward-yield": rewardYield,
+            "your-earnings-per-day": "",
+            "position": "",
+            "you-will-get": "",
+            "bond-price": bondPrice,
+            "max-you-can-buy": maxPrice,
+            "ROI": roi,
+            "debt-ratio": debtRatio,
+            "vesting-term": "5 Days"
         }
     }
