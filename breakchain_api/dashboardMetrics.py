@@ -66,7 +66,7 @@ def get_dashboard_metrics():
     usdcbond = w3.eth.contract(env("USDC_BOND_ADDRESS"), abi=usdcbond_abi)
     bondPrice = usdcbond.functions.bondPriceInUSD().call() / 10 ** 18
     maxPrice = usdcbond.functions.maxPayout().call() / 10 ** 9
-    roi = (priceFloor - bondPrice) / priceFloor
+    roi = ((priceFloor - bondPrice) / priceFloor) * 100
     # Debt Ratio
     debtRatio = usdcbond.functions.debtRatio().call() / 100
     print("Debt Ratio: " + str(debtRatio))
