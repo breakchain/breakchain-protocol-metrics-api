@@ -10,7 +10,7 @@ environ.Env.read_env()
 
 
 def get_dashboard_metrics():
-    w3 = Web3(Web3.HTTPProvider('https://rpc-mumbai.matic.today'))
+    w3 = Web3(Web3.HTTPProvider('https://speedy-nodes-nyc.moralis.io/fda0588e687ccfe91bb013e8/polygon/mumbai'))
     w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
     with open(ROOT_DIR + "abi/xchain_abi.json") as f:
