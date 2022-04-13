@@ -10,7 +10,8 @@ environ.Env.read_env()
 
 
 def get_dashboard_metrics():
-    w3 = Web3(Web3.HTTPProvider('https://speedy-nodes-nyc.moralis.io/fda0588e687ccfe91bb013e8/polygon/mumbai'))
+    w3 = Web3(Web3.HTTPProvider(
+        'https://polygon-mainnet.infura.io/v3/18c3956af9734c289bfed9eee03ee1a7'))
     w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
     with open(ROOT_DIR + "abi/xchain_abi.json") as f:
@@ -31,6 +32,17 @@ def get_dashboard_metrics():
 
     priceFloor = (treasuryUSDCbalance / totalSupplyXchain)
 
+    # Market Price
+    with open(ROOT_DIR + "abi/quickswap_abi.json") as f:
+        quickswap_abi = json.load(f)
+
+    quickswap = w3.eth.contract(
+        address="0xB514F2AB129325b4ca017fF93d539C6FB59CAdB3", abi=quickswap_abi)
+
+    quickswapReserves = quickswap.functions.getReserves().call()
+
+    marketPrice = quickswapReserves[0] / quickswapReserves[1]
+
     # XCHAIN STAKED %
     stakingAddress = env("STAKING_ADDRESS")
     stakedXchain = (xchain.functions.balanceOf(stakingAddress).call())*10**9
@@ -44,7 +56,7 @@ def get_dashboard_metrics():
     treasuryAssets = treasuryUSDCbalance/10**18
 
     #  Total Value Locked (can switch to market price)
-    tvl = priceFloor*(stakedXchain/10**18)
+    tvl = marketPrice*(stakedXchain/10**18)
 
     # APY and ROI 5 Day
     distributed = (totalSupplyXchain/10**18) * .003
@@ -55,18 +67,18 @@ def get_dashboard_metrics():
     runway = (np.log(rfv/(stakedXchain/10**18)) /
               np.log(1+(rewardYield/100)))/3
 
-    #apy
+    # apy
     apy = ((1 + rewardYield / 100) ** (3 * 365) - 1) * 100
     roi5 = ((1 + rewardYield / 100) ** (3 * 5) - 1) * 100
 
-    #bond
+    # bond
     with open(ROOT_DIR + "abi/usdcbond_abi.json") as f:
         usdcbond_abi = json.load(f)
 
     usdcbond = w3.eth.contract(env("USDC_BOND_ADDRESS"), abi=usdcbond_abi)
     bondPrice = usdcbond.functions.bondPriceInUSD().call() / 10 ** 18
     maxPrice = usdcbond.functions.maxPayout().call() / 10 ** 9
-    roi = ((priceFloor - bondPrice) / priceFloor) * 100
+    roi = ((marketPrice - bondPrice) / marketPrice) * 100
     # Debt Ratio
     debtRatio = usdcbond.functions.debtRatio().call() / 100
     print("Debt Ratio: " + str(debtRatio))
@@ -74,8 +86,8 @@ def get_dashboard_metrics():
     return {
         "statusCode": 200,
         "body": {
-            "xchain-price": priceFloor,
-            "market-cap": priceFloor*circulatingSupply,
+            "xchain-price": marketPrice,
+            "market-cap": marketPrice*circulatingSupply,
             "price-floor": priceFloor,
             "xchain-staked": stakedRatio,
             "circulating-supply": circulatingSupply,
