@@ -60,12 +60,17 @@ def get_dashboard_metrics():
 
     # APY and ROI 5 Day
     distributed = (totalSupplyXchain/10**18) * .003
-    rewardYield = distributed / (stakedXchain/10**18)
+    rewardYield = 0
+    if stakedXchain != 0:
+        rewardYield = distributed / (stakedXchain / 10 ** 18)
 
     # runway
     rfv = treasuryAssets
-    runway = (np.log(rfv/(stakedXchain/10**18)) /
-              np.log(1+(rewardYield/100)))/3
+    runway = 0
+    if stakedXchain != 0:
+        runway = (np.log(rfv/(stakedXchain/10**18)) /
+                  np.log(1+(rewardYield/100)))/3
+    print(runway)
 
     # apy
     apy = ((1 + rewardYield / 100) ** (3 * 365) - 1) * 100
