@@ -30,7 +30,7 @@ def get_dashboard_metrics():
     treasuryAddress = env("TREASURY_ADDRESS")
     treasuryUSDCbalance = usdc.functions.balanceOf(treasuryAddress).call()
 
-    priceFloor = (treasuryUSDCbalance / totalSupplyXchain)
+    priceFloor = (treasuryUSDCbalance*10**12 / totalSupplyXchain)
 
     # Market Price
     with open(ROOT_DIR + "abi/quickswap_abi.json") as f:
@@ -41,7 +41,7 @@ def get_dashboard_metrics():
 
     quickswapReserves = quickswap.functions.getReserves().call()
 
-    marketPrice = quickswapReserves[0] / quickswapReserves[1]
+    marketPrice = quickswapReserves[0] / (quickswapReserves[1]*10**3)
 
     # XCHAIN STAKED %
     stakingAddress = env("STAKING_ADDRESS")
@@ -53,7 +53,7 @@ def get_dashboard_metrics():
     circulatingSupply = totalSupplyXchain/10**18
 
     # Treasury Assets (reserve balance of treasury)
-    treasuryAssets = treasuryUSDCbalance/10**18
+    treasuryAssets = treasuryUSDCbalance/10**6
 
     #  Total Value Locked (can switch to market price)
     tvl = marketPrice*(stakedXchain/10**18)
@@ -81,7 +81,7 @@ def get_dashboard_metrics():
         usdcbond_abi = json.load(f)
 
     usdcbond = w3.eth.contract(env("USDC_BOND_ADDRESS"), abi=usdcbond_abi)
-    bondPrice = usdcbond.functions.bondPriceInUSD().call() / 10 ** 18
+    bondPrice = usdcbond.functions.bondPriceInUSD().call() / 10 ** 6
     maxPrice = usdcbond.functions.maxPayout().call() / 10 ** 9
     roi = ((marketPrice - bondPrice) / marketPrice) * 100
     # Debt Ratio
