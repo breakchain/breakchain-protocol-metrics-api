@@ -59,7 +59,7 @@ def get_dashboard_metrics():
     tvl = marketPrice*(stakedXchain/10**18)
 
     # APY and ROI 5 Day
-    distributed = (totalSupplyXchain/10**18) * .003
+    distributed = (totalSupplyXchain/10**18) * .03
     rewardYield = 0
     if stakedXchain != 0:
         rewardYield = distributed / (stakedXchain / 10 ** 18)
