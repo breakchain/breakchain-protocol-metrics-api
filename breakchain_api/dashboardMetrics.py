@@ -41,7 +41,7 @@ def get_dashboard_metrics():
 
     quickswapReserves = quickswap.functions.getReserves().call()
 
-    marketPrice = quickswapReserves[0] / (quickswapReserves[1]*10**3)
+    marketPrice = (quickswapReserves[1]/10**6) / (quickswapReserves[0]/10**9)
 
     # XCHAIN STAKED %
     stakingAddress = env("STAKING_ADDRESS")
