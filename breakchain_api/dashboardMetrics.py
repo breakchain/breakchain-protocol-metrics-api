@@ -103,6 +103,7 @@ def get_dashboard_metrics():
             "treasury-backing": treasuryAssets,
             "APY": apy,
             "ROI-5-Day": roi5,
+            "APY-1-Day": apy1day,
             "total-locked-value": tvl,
             "next-reward-amount": "",
             "next-reward-yield": rewardYield,
