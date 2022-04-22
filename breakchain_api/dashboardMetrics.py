@@ -74,6 +74,7 @@ def get_dashboard_metrics():
 
     # apy
     apy = ((1 + rewardYield / 100) ** (3 * 365) - 1) * 100
+    apy1day = ((1 + rewardYield / 100) ** (3) - 1) * 100
     roi5 = ((1 + rewardYield / 100) ** (3 * 5) - 1) * 100
 
     # bond
