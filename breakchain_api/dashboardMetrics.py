@@ -67,7 +67,7 @@ def get_dashboard_metrics():
     # runway
     rfv = treasuryAssets
     runway = 0
-    if stakedXchain != 0:
+    if stakedXchain != 0 and rfv != 0:
         runway = (np.log(rfv/(stakedXchain/10**18)) /
                   np.log(1+(rewardYield/100)))/3
     print(runway)
