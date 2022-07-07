@@ -26,11 +26,28 @@ def get_dashboard_metrics():
         usdc_abi = json.load(f)
 
     usdc = w3.eth.contract(address=env("USDC_ADDRESS"), abi=usdc_abi)
+    ust = w3.eth.contract(address=env("UST_ADDRESS"), abi=usdc_abi)
 
     treasuryAddress = env("TREASURY_ADDRESS")
     treasuryUSDCbalance = usdc.functions.balanceOf(treasuryAddress).call()
+    treasuryUSTbalance = ust.functions.balanceOf(treasuryAddress).call()
+    
+    url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+    parameters = {'slug': 'terrausd', 'convert': 'USD'}
+    headers = {
+        'Accepts': 'application/json',
+        'X-CMC_PRO_API_KEY': 'c5c8af8c-8412-4f9d-b75d-77119896d3e4'
+    }  
+    session = Session()
+    session.headers.update(headers)
+    response = session.get(url, params=parameters)
+    info = json.loads(response.text)
 
-    priceFloor = (treasuryUSDCbalance*10**12 / totalSupplyXchain)
+    ustPrice = info['data']['7129']['quote']['USD']['price']
+    
+    treasuryBalance = treasuryUSDCbalance + (ustPrice*treasuryUSTbalance)
+
+    priceFloor = (treasuryBalance*10**12 / totalSupplyXchain)
 
     # Market Price
     with open(ROOT_DIR + "abi/quickswap_abi.json") as f:
@@ -53,7 +70,7 @@ def get_dashboard_metrics():
     circulatingSupply = totalSupplyXchain/10**18
 
     # Treasury Assets (reserve balance of treasury)
-    treasuryAssets = treasuryUSDCbalance/10**6
+    treasuryAssets = treasuryBalance/10**6
 
     #  Total Value Locked (can switch to market price)
     tvl = marketPrice*(stakedXchain/10**18)
