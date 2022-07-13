@@ -32,7 +32,7 @@ def get_dashboard_metrics():
     treasuryAddress = env("TREASURY_ADDRESS")
     treasuryUSDCbalance = usdc.functions.balanceOf(treasuryAddress).call()
     treasuryUSTbalance = ust.functions.balanceOf(treasuryAddress).call()
-    
+    '''
     url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
     parameters = {'slug': 'terrausd', 'convert': 'USD'}
     headers = {
@@ -45,7 +45,19 @@ def get_dashboard_metrics():
     info = json.loads(response.text)
 
     ustPrice = info['data']['7129']['quote']['USD']['price']
-    
+    '''
+    # new ust market price
+    with open(ROOT_DIR + "abi/quickswap_abi.json") as f:
+        quickswap_abi = json.load(f)
+
+    quickswap = w3.eth.contract(
+        address="0xc5fb609d8ae6e4deb4be844afb6df86874b49d9d", abi=quickswap_abi)
+
+    quickswapReserves = quickswap.functions.getReserves().call()
+
+    ustPrice = (quickswapReserves[0]) / (quickswapReserves[1])
+    # end
+
     treasuryBalance = treasuryUSDCbalance + (ustPrice*treasuryUSTbalance)
 
     priceFloor = (treasuryBalance*10**12 / totalSupplyXchain)
