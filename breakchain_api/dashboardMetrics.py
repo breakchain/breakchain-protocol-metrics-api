@@ -51,7 +51,7 @@ def get_dashboard_metrics():
         quickswap_abi = json.load(f)
 
     quickswap = w3.eth.contract(
-        address="0xc5fb609d8ae6e4deb4be844afb6df86874b49d9d", abi=quickswap_abi)
+        address="0xc5fB609D8aE6e4dEB4be844AFB6DF86874B49d9D", abi=quickswap_abi)
 
     quickswapReserves = quickswap.functions.getReserves().call()
 
