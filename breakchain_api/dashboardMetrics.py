@@ -144,6 +144,6 @@ def get_dashboard_metrics():
             "max-you-can-buy": maxPrice,
             "ROI": roi,
             "debt-ratio": debtRatio,
-            "vesting-term": "5 Days"
+            "vesting-term": "15 Days"
         }
     }
